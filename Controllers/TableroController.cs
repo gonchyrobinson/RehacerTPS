@@ -11,12 +11,14 @@ public class TableroController : Controller
     private readonly ILogger<TableroController> _logger;
     private readonly ITableroRepository _manejoTableros;
     private readonly IUsuarioRepository _manejoUsuarios;
+    private readonly ITareaRepository _manejotareas;
 
-    public TableroController(ILogger<TableroController> logger, ITableroRepository manejoTableros, IUsuarioRepository manejoUsuarios)
+    public TableroController(ILogger<TableroController> logger, ITableroRepository manejoTableros, IUsuarioRepository manejoUsuarios,ITareaRepository manejotareas)
     {
         _logger = logger;
         this._manejoTableros = manejoTableros;
         this._manejoUsuarios = manejoUsuarios;
+        this._manejotareas = manejotareas;
     }
     [HttpGet]
     public IActionResult Index()
@@ -113,6 +115,8 @@ public class TableroController : Controller
             if (NoSeLogueoElUsuario()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
             var idUs = _manejoTableros.idUsuarioPropietario(id);
             if(!Permiso((int)idUs))throw new Exception("El usuario de id "+IdUsuarioLogueado()+" intento eliminar un tablero de otro usuario");
+            int cantTareasEliminadas = _manejotareas.EliminarTareasTablero(id);
+            _logger.LogInformation("Se eliminaron "+cantTareasEliminadas+" del tablero de id "+id);
             _manejoTableros.EliminarTablero(id);
             return RedirectToAction("IndexTablerosUsuario",new{id=idUs});
         }

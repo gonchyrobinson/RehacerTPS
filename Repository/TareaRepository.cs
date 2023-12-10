@@ -276,6 +276,46 @@ public class TareaRepository : ITareaRepository
         }
         return idUsuarioA;
     }
+    public int SetNullTareasUsuario(int idUs){
+        var queryString = "UPDATE Tarea SET id_usuario_asignado = NULL WHERE id_usuario_asignado = @idUs";
+        int cantFilas = 0;
+        using (var connection = new SQLiteConnection(_cadenaDeConexion))
+        {
+            var command = new SQLiteCommand(queryString,connection);
+            command.Parameters.Add(new SQLiteParameter("@idUs",idUs));
+            connection.Open();
+            cantFilas = command.ExecuteNonQuery();
+            connection.Close();
+        }
+        return cantFilas;
+    }
+
+    public int EliminarTareasTablero(int idTablero){
+        var queryString = "DELETE FROM Tarea WHERE id_tablero = @id";
+        int cantFilas = 0;
+        using (var connection = new SQLiteConnection(_cadenaDeConexion))
+        {
+            var command = new SQLiteCommand(queryString,connection);
+            command.Parameters.Add(new SQLiteParameter("@id",idTablero));
+            connection.Open();
+            cantFilas = command.ExecuteNonQuery();
+            connection.Close();
+        }
+        return cantFilas;
+    }
+    public int EliminarTareasTablerosDeUsuario(int idUs){
+        var queryString = "DELETE FROM Tarea WHERE id_tablero in (SELECT id FROM Tablero WHERE id_usuario_propietario = @id)";
+        int cantFilas = 0;
+        using (var connection = new SQLiteConnection(_cadenaDeConexion))
+        {
+            var command = new SQLiteCommand(queryString,connection);
+            command.Parameters.Add(new SQLiteParameter("@id",idUs));
+            connection.Open();
+            cantFilas = command.ExecuteNonQuery();
+            connection.Close();
+        }
+        return cantFilas;
+    }
 
 
 }

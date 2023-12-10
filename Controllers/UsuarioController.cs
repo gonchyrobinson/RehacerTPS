@@ -8,12 +8,16 @@ namespace RehacerTPS.Controllers;
 public class UsuarioController : Controller
 {
     private readonly ILogger<UsuarioController> _logger;
-    private readonly IUsuarioRepository manejoUsuarios;
+    private readonly IUsuarioRepository _manejoUsuarios;
+    private readonly ITableroRepository _manejoTableros;
+    private readonly ITareaRepository _manejoTareas;
 
-    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository manejoUsuarios)
+    public UsuarioController(ILogger<UsuarioController> logger, IUsuarioRepository manejoUsuarios, ITableroRepository manejoTableros, ITareaRepository manejoTareas)
     {
         _logger = logger;
-        this.manejoUsuarios = manejoUsuarios;
+        this._manejoUsuarios = manejoUsuarios;
+        this._manejoTableros = manejoTableros;
+        this._manejoTareas = manejoTareas;
     }
     [HttpGet]
     public IActionResult Index()
@@ -21,7 +25,7 @@ public class UsuarioController : Controller
         try
         {
             if (NoEstaLogueado()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
-            var usuarios = manejoUsuarios.ListarUsuarios();
+            var usuarios = _manejoUsuarios.ListarUsuarios();
             var permiso = PermisoAdmin();
             return View(new IndexUsuarioViewModel(usuarios,permiso,(int)IdUsuarioLogueado()));
         }
@@ -44,7 +48,7 @@ public class UsuarioController : Controller
             if (NoEstaLogueado()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
             if (!ModelState.IsValid) return RedirectToAction("Crear");
             var creado = new Usuario(usuario);
-            manejoUsuarios.CrearUsuario(creado);
+            _manejoUsuarios.CrearUsuario(creado);
             return RedirectToAction("Index");
         }
         catch (Exception ex)
@@ -63,7 +67,7 @@ public class UsuarioController : Controller
         {
             if (NoEstaLogueado()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
             if(!PermisoModEliminar(id))throw(new Exception("El usuario "+NombreUsuarioLogueado()+" intentó modificar una tarea de otro usuario (de id "+id+")"));
-            var usuario = manejoUsuarios.GetUsuarioPorId(id);
+            var usuario = _manejoUsuarios.GetUsuarioPorId(id);
             return View(new ModificarUsuarioViewModel(usuario));
         }
         catch (Exception ex)
@@ -81,7 +85,7 @@ public class UsuarioController : Controller
             if(!ModelState.IsValid)throw new Exception("Error al cargar datos del formulario");
             if(!PermisoModEliminar(us.id))throw(new Exception("El usuario "+NombreUsuarioLogueado()+" intentó modificar una tarea de otro usuario (de id "+us.id+")"));
             var modificar = new Usuario(us);
-            var modificado = manejoUsuarios.ModificarUsuario(us.id, modificar);
+            var modificado = _manejoUsuarios.ModificarUsuario(us.id, modificar);
             return RedirectToAction("Index");
         }
         catch (Exception ex)
@@ -97,7 +101,12 @@ public class UsuarioController : Controller
         {
             if (NoEstaLogueado()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
             if(!PermisoModEliminar(id))throw(new Exception("El usuario "+NombreUsuarioLogueado()+" intentó eliminar una tarea de otro usuario (de id "+id+")"));
-            var eliminado = manejoUsuarios.EliminarUsuario(id);
+            int cantTarEliminadas = _manejoTareas.EliminarTareasTablerosDeUsuario(id);
+            _logger.LogInformation("Se eliminaron "+cantTarEliminadas+"tareas del usuario de id "+id);
+            int cantTablerosEliminados = _manejoTableros.EliminarTablerosUsuario(id);
+            _logger.LogInformation("Se eliminaron "+cantTablerosEliminados+"tableros del Usuario de id "+id);
+            var eliminado = _manejoUsuarios.EliminarUsuario(id);
+            _logger.LogInformation("Se elimino el usuario de id "+id);
             return RedirectToAction("Index");
         }
         catch (Exception ex)

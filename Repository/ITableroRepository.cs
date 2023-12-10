@@ -11,5 +11,6 @@ public interface ITableroRepository
     public bool ModificarTablero(int id, Tablero t);
     public bool EliminarTablero(int id);
     public int? idUsuarioPropietario(int idTab);
+    public int EliminarTablerosUsuario(int idUs);
 
 }

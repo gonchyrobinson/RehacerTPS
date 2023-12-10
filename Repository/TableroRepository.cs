@@ -160,4 +160,17 @@ public class TableroRepository : ITableroRepository
         }
         return id;
     }
+    public int EliminarTablerosUsuario(int idUs){
+        var queryString = "DELETE FROM Tablero WHERE id_usuario_propietario=@idUs";
+        int cantFilas=0;
+        using (var connection = new SQLiteConnection(_cadenaDeConexion))
+        {
+            var command = new SQLiteCommand(queryString,connection);
+            command.Parameters.Add(new SQLiteParameter("@idUs",idUs));
+            connection.Open();
+            cantFilas = command.ExecuteNonQuery();
+            connection.Close();
+        }
+        return cantFilas;
+    }
 }

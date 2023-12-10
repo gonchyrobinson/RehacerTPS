@@ -14,5 +14,8 @@ public interface ITareaRepository{
     public bool CambiarEstadoTarea(int idTar, Estado nuevoEstado);
     public int? IdTableroPropietario(int idTarea);
     public int? GetIdUsuarioAsignado(int id);
+    public int SetNullTareasUsuario(int id);
+    public int EliminarTareasTablero(int idTablero);
+    public int EliminarTareasTablerosDeUsuario(int idUs);
 
 }
