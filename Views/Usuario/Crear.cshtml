@@ -1,0 +1,30 @@
+@using RehacerTPS.ViewModels;
+@model CrearUsuarioViewModel;
+<h1 class="text-center font-weight-bold">Crear</h1>
+<form asp-asp-controller="Usuario" asp-action="CrearP" method="post">
+    <div class="form-group mb-4">
+        <label for="nombre_us" asp-for="@Model.nombre_de_usuario"></label>
+        <input asp-for="@Model.nombre_de_usuario" class="form-control mb-4" id="nombre_us"
+            placeholder="gonzaloRobinson">
+        <span asp-validation-for="@Model.nombre_de_usuario" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-4">
+        <label for="pass" asp-for="@Model.contrasenia"></label>
+        <input asp-for="@Model.contrasenia" type="password" class="form-control mb-4" id="pass">
+        <span asp-validation-for="@Model.contrasenia" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-4">
+        <label class="form-check-label" for="rolUs" asp-for="@Model.rol"></label>
+        <select name="rol" id="rolUs" asp-for="@Model.rol" class="form-select">
+            <option value="@Rol.Administrador">Administrador</option>
+            <option value="@Rol.Operativo">Operativo</option>
+        </select>
+        <span asp-validation-for="@Model.rol" class="text-danger"></span>
+    </div>
+    <div class="btn-group d-flex mt-4">
+        <button type="submit" class="btn btn-outline-primary">Crear</button>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

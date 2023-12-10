@@ -1,0 +1,40 @@
+@using RehacerTPS.ViewModels;
+@model IndexUsuarioViewModel;
+<h1 class="text-center font-weight-bold mb-4">Listar Usuarios</h1>
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col" hidden></th>
+            <th scope="col">Nombre de Usuario</th>
+            <th scope="col">Rol</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var us in Model.usuarios)
+        {
+            <tr>
+                <td hidden>@us.id></td>
+                <td>@us.nombre_de_usuario</td>
+                <td>@us.rol.ToString()</td>
+                @if (us.id == Model.idUsuarioLogueado || Model.permiso)
+                {
+                    <td><a asp-controller="Usuario" asp-action="Modificar" asp-route-id="@us.id"
+                            class="btn btn-outline-primary">Modificar</a></td>
+                    <td><a asp-controller="Usuario" asp-action="Eliminar" asp-route-id="@us.id"
+                            class="btn btn-outline-danger">Eliminar</a></td>
+                }else{
+                    <td></td>
+                    <td></td>
+                }
+                <td><a asp-controller="Tablero" asp-action="IndexTablerosUsuario" asp-route-id="@us.id"
+                        class="btn btn-outline-info">Ver Tableros</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="btn-group d-flex mx-auto">
+    <a asp-controller="Usuario" asp-action="Crear" class="btn btn-success align-middle">Crear Usuario</a>
+</div>

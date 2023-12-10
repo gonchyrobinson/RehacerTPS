@@ -1,0 +1,24 @@
+@using RehacerTPS.ViewModels;
+@model CambiarEstadoTareaViewModel;
+<h1 class="text-center font-weight-bold">Cambiar Estado Tarea</h1>
+<form asp-asp-controller="Tarea" asp-action="CambiarEstadoTareaP" method="post">
+    <input hidden asp-for="@Model.idTarea">
+    <div class="form-group mb-4">
+        <label class="form-check-label" for="rolUs" asp-for="@Model.nuevoEstado"></label>
+        <select id="rolUs" asp-for="@Model.nuevoEstado" class="form-select">
+            <option value="@Estado.Doing">Doing</option>
+            <option value="@Estado.ToDo" selected>To do</option>
+            <option value="@Estado.Ideas">Ideas</option>
+            <option value="@Estado.Done">Done</option>
+            <option value="@Estado.Review">Review</option>
+        </select>
+        <span asp-validation-for="@Model.nuevoEstado" class="text-danger"></span>
+    </div>
+    <div class="btn-group d-flex mt-4">
+        <button type="submit" class="btn btn-success">Modificar</button>
+    </div>
+
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

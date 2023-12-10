@@ -1,0 +1,60 @@
+@using RehacerTPS.ViewModels;
+@model ModificarTareaViewModel;
+<h1 class="text-center font-weight-bold">Modificar</h1>
+<form asp-asp-controller="Tarea" asp-action="ModificarP" method="post">
+    <div class="form-group">
+        <label for="nombre" asp-for="@Model.nombre"></label>
+        <input asp-for="@Model.nombre" class="form-control mb-4" id="nombre">
+        <span asp-validation-for="@Model.nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="desc" asp-for="@Model.descripcion"></label>
+        <input asp-for="@Model.descripcion" class="form-control mb-4" id="desc">
+    </div>
+    <div class="form-group">
+        <label for="color" asp-for="@Model.color"></label>
+        <input asp-for="@Model.color" class="form-control mb-4" id="color">
+    </div>
+    <div class="form-group mb-4">
+        <label class="form-check-label" for="us" asp-for="@Model.id_usuario_asignado"></label>
+        <select id="us" asp-for="@Model.id_usuario_asignado" class="form-select">
+            @foreach (var el in Model.usuarios)
+            {
+                <option value="@el.idUs">@el.nombreUs</option>
+            }
+            <option value="@null">No asignar a ningun Usuario</option>
+        </select>
+        <span asp-validation-for="@Model.id_usuario_asignado" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-4">
+        <label class="form-check-label" for="tab" asp-for="@Model.id_tablero"></label>
+        <select id="tab" asp-for="@Model.id_tablero" class="form-select">
+            @foreach (var el in Model.tableros)
+            {
+                <option value="@el.idTab">@el.nombreTab</option>
+            }
+        </select>
+        <span asp-validation-for="@Model.id_tablero" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-4">
+        <label class="form-check-label" for="estado" asp-for="@Model.estado"></label>
+        <select id="estado" asp-for="@Model.estado" class="form-select">
+            <option value="@Estado.Ideas">Ideas</option>
+            <option value="@Estado.Review">Review</option>
+            <option value="@Estado.ToDo">To Do</option>
+            <option value="@Estado.Doing">Doing</option>
+            <option value="@Estado.Done">Done</option>
+        </select>
+        <span asp-validation-for="@Model.id_tablero" class="text-danger"></span>
+    </div>
+    <input hidden asp-for="@Model.usuarios">
+    <input hidden asp-for="@Model.tableros">
+    <input hidden asp-for="@Model.id">
+    <input hidden asp-for="@Model.permiso">
+    <div class="btn-group d-flex mt-4">
+        <button type="submit" class="btn btn-success">Modificar</button>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

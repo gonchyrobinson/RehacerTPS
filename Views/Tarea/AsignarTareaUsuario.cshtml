@@ -1,0 +1,24 @@
+@using RehacerTPS.ViewModels;
+@model AsignarTareaUsuarioViewModel;
+<h1 class="text-center font-weight-bold">Asignar Tarea a Usuairo</h1>
+<form asp-asp-controller="Tarea" asp-action="AsignarTareaUsuarioP" method="post">
+    <input hidden asp-for="@Model.permiso">
+    <input hidden asp-for="@Model.idTarea">
+    <input hidden asp-for="@Model.usuarios">
+    <div class="form-group mb-4">
+        <label class="form-check-label" for="us" asp-for="@Model.idUsuarioAsignado"></label>
+        <select id="us" asp-for="@Model.idUsuarioAsignado" class="form-select">
+            @foreach(var us in Model.usuarios){
+                <option value="@us.idUs">@us.nombreUs</option>
+            }
+            <option value="@null">No asignar a ningun usuario</option>
+        </select>
+    </div>
+    <div class="btn-group d-flex mt-4">
+        <button type="submit" class="btn btn-success">Asignar</button>
+    </div>
+
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

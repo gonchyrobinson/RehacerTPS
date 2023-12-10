@@ -1,0 +1,41 @@
+@using RehacerTPS.ViewModels;
+@model ModificarUsuarioViewModel;
+<h1 class="text-center font-weight-bold">Modificar</h1>
+<form asp-asp-controller="Usuario" asp-action="ModificarP" method="post">
+    <input hidden asp-for="@Model.id">
+    <div class="form-group">
+        <label for="nombre_us" asp-for="@Model.nombre_de_usuario"></label>
+        <input asp-for="@Model.nombre_de_usuario" class="form-control mb-4" id="nombre_us"
+            value="@Model.nombre_de_usuario">
+        <span asp-validation-for="@Model.nombre_de_usuario" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="pass" asp-for="@Model.contrasenia"></label>
+        <input asp-for="@Model.contrasenia" type="password" class="form-control mb-4" id="pass"
+            value="@Model.contrasenia">
+        <span asp-validation-for="@Model.contrasenia" class="text-danger"></span>
+    </div>
+    <div class="form-group mb-4">
+        <label class="form-check-label" asp-for="@Model.rol" for="rolUs"></label>
+        <select name="rol" id="rolUs" asp-for="@Model.rol" class="form-select">
+            @if (Model.rol == Rol.Administrador)
+            {
+                <option value="@Rol.Administrador" selected>Administrador</option>
+                <option value="@Rol.Operativo">Operativo</option>
+            }
+            else
+            {
+                <option value="@Rol.Administrador" selected>Administrador</option>
+                <option value="@Rol.Operativo" selected>Operativo</option>
+            }
+        </select>
+        <span asp-validation-for="@Model.rol" class="text-danger"></span>
+    </div>
+    <div class="btn-group d-flex mt-4">
+        <button type="submit" class="btn btn-success">Modificar</button>
+    </div>
+
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

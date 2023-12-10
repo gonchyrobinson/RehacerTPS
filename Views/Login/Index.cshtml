@@ -1,0 +1,21 @@
+@using RehacerTPS.ViewModels;
+@model LoginViewModel;
+<h1 class="text-center font-weight-bold">Iniciar Sesión</h1>
+<form asp-asp-controller="Login" asp-action="Loguear" method="post">
+    <div class="form-group">
+        <label for="nombre">Nombre de Usuario</label>
+        <input asp-for="@Model.nombreDeUsuario" class="form-control mb-4" id="nombre" placeholder="tablero de gonzalo Robinson">
+        <span asp-validation-for="@Model.nombreDeUsuario" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="desc">Contraseña</label>
+        <input  type="password" asp-for="@Model.contrasenia" class="form-control mb-4" id="desc">
+        <span asp-validation-for="@Model.contrasenia" class="text-danger"></span>
+    </div>
+    <div class="btn-group d-flex mt-4">
+        <button type="submit" class="btn btn-outline-success">Iniciar Sesión</button>
+    </div>
+</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
