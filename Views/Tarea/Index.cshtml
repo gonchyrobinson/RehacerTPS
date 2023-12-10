@@ -1,6 +1,6 @@
 @using RehacerTPS.ViewModels;
 @model IndexTareaViewModel;
-<h1 class="text-center font-weight-bold mb-4">Listar Usuarios</h1>
+<h1 class="text-center font-weight-bold mb-4">Listar Tareas</h1>
 <table class="table table-dark">
     <thead>
         <tr>
@@ -13,6 +13,9 @@
             <th scope="col">Descripcion</th>
             <th scope="col">Color</th>
             <th scope="col">Nombre de Usuario Asignado</th>
+            <th></th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -28,6 +31,47 @@
                 <td>@tar.descripcion</td>
                 <td>@tar.color</td>
                 <td>@tar.nombre_usuario_asignado</td>
+               @if (Model.permiso)
+                {
+                    <td><a asp-controller="Tarea" asp-action="Modificar" asp-route-id="@tar.id"
+                            class="btn btn-outline-primary">Modificar Tarea</a></td>
+                    <td><a asp-controller="Tarea" asp-action="Eliminar" asp-route-id="@tar.id"
+                            class="btn btn-outline-danger">Eliminar</a></td>
+                    <td><a asp-controller="Tarea" asp-action="AsignarTareaUsuario" asp-route-idTarea="@tar.id"
+                            class="btn btn-outline-success">Asignar a Usuario</a></td>
+                }
+                else
+                {
+                    if (tar.permisoAsignar)
+                    {
+                        if(tar.permisoModificar){
+                        <td><a asp-controller="Tarea" asp-action="Modificar" asp-route-id="@tar.id"
+                                    class="btn btn-outline-primary">Modificar Estado</a></td>
+                        }else{
+                            <td></td>
+                        }
+                        <td><a asp-controller="Tarea" asp-action="Eliminar" asp-route-id="@tar.id"
+                                class="btn btn-outline-danger">Eliminar</a></td>
+                        <td><a asp-controller="Tarea" asp-action="AsignarTareaUsuario" asp-route-idTarea="@tar.id"
+                                class="btn btn-outline-success">Asignar a Usuario</a></td>
+                    }
+                    else
+                    {
+                        if (tar.permisoModificar)
+                        {
+                            <td><a asp-controller="Tarea" asp-action="Modificar" asp-route-id="@tar.id"
+                                    class="btn btn-outline-primary">Modificar Estado</a></td>
+                            <td></td>
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
+                    }
+                }
             </tr>
         }
     </tbody>

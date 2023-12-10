@@ -10,12 +10,12 @@ public class ListarTareasTableroTareaViewModel{
     public ListarTareasTableroTareaViewModel(){
         
     }
-    public ListarTareasTableroTareaViewModel(List<Tarea> listTar, List<Usuario> listUs, Tablero tab,string nombreTablero,int idUsuarioLogueado,bool permisoA){
+    public ListarTareasTableroTareaViewModel(List<Tarea> listTar, List<Usuario> listUs, List<Tablero>tableros,Tablero tab,string nombreTablero,int idUsuarioLogueado,bool permisoA){
         nombreTablero = tab.Nombre;
         tareas=new List<ElementoListarTareasTableroViewModel>();
         foreach (var tar in listTar)
         {
-            tareas.Add(new ElementoListarTareasTableroViewModel(tar,listUs,nombreTablero,idUsuarioLogueado));
+            tareas.Add(new ElementoListarTareasTableroViewModel(tar,listUs,tableros,nombreTablero,idUsuarioLogueado));
         }
         this.nombreTablero=nombreTablero;
         this.permisoAdmin=permisoA;

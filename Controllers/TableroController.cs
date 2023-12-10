@@ -28,7 +28,7 @@ public class TableroController : Controller
             if (NoSeLogueoElUsuario()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
             var tableros = _manejoTableros.ListarTableros();
             var usuarios = _manejoUsuarios.ListarUsuarios();
-            return View(new IndexTablerosViewModel(tableros, usuarios));
+            return View(new IndexTablerosViewModel(tableros, usuarios, PermisoAdmin(),(int)IdUsuarioLogueado()));
         }
         catch (Exception ex)
         {
@@ -96,7 +96,7 @@ public class TableroController : Controller
         {
             if (NoSeLogueoElUsuario()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
             if (!ModelState.IsValid) throw (new Exception("Error al cargar los datos en el formulario"));
-            if(!tabvm.permiso)throw new Exception("El usuario de id "+IdUsuarioLogueado()+" intento modificar un tablero de otro usuario");
+            if(!Permiso(tabvm.id_usuario_asignado))throw new Exception("El usuario "+NombreUsuarioLogueado()+" de id "+IdUsuarioLogueado()+" intento modificar un tablero de otro usuario");
             var tablero = new Tablero(tabvm);
             _manejoTableros.ModificarTablero(tabvm.id, tablero);
             return RedirectToAction("IndexTablerosUsuario",new{id=tabvm.id_usuario_asignado});
@@ -137,7 +137,7 @@ public class TableroController : Controller
             var usuarios = _manejoUsuarios.ListarUsuarios();
             var nombreUsuario = _manejoUsuarios.GetNombreUsuario(id);
             var permisoAsignar = Permiso(id);
-            return (View(new IndexTablerosUsuarioViewModel(tableros, usuarios, permisoAsignar,nombreUsuario)));
+            return (View(new IndexTablerosUsuarioViewModel(tableros, usuarios,nombreUsuario,permisoAsignar,(int)IdUsuarioLogueado())));
         }
         catch (Exception ex)
         {
@@ -171,4 +171,7 @@ public class TableroController : Controller
     private bool Permiso(int id){
         return (IdUsuarioLogueado()==id || RolUsuarioLogueado()=="Administrador");
     } 
+    private bool PermisoAdmin(){
+        return (RolUsuarioLogueado()==Rol.Administrador.ToString());
+    }
 }

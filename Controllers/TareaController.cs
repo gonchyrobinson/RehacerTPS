@@ -31,7 +31,7 @@ public class TareaController : Controller
             var tareas = _manejoTareas.Listar();
             var usuarios = _manejoUsuarios.ListarUsuarios();
             var tableros = _manejoTableros.ListarTableros();
-            return (View(new IndexTareaViewModel(tareas, usuarios, tableros)));
+            return (View(new IndexTareaViewModel(tareas, usuarios, tableros,PermisoAdmin(),(int)IdUsuarioLogueado())));
         }
         catch (Exception ex)
         {
@@ -183,7 +183,8 @@ public class TareaController : Controller
             var usuarios = _manejoUsuarios.ListarUsuarios();
             var idUsuarioTablero = _manejoTableros.idUsuarioPropietario(idTablero);
             var permisoAdmin = PermisoAdmin();
-            return View(new ListarTareasTableroTareaViewModel(tareas, usuarios, tablero, tablero.Nombre, (int)IdUsuarioLogueado(), permisoAdmin));
+            var tableros = _manejoTableros.ListarTableros();
+            return View(new ListarTareasTableroTareaViewModel(tareas, usuarios, tableros,tablero, tablero.Nombre, (int)IdUsuarioLogueado(), permisoAdmin));
         }
         catch (Exception ex)
         {
@@ -217,10 +218,12 @@ public class TareaController : Controller
         try
         {
             if (NoSeLogueoUsuario()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
-            if (!vm.permiso) throw (new Exception("El usuario " + NombreUsuarioLogueado() + " de id " + IdUsuarioLogueado() + "intento acceder a la tarea de id " + vm.idTarea));
+            var id_us_prop  = _manejoTareas.ObtenerIdUsuarioPropietarioDelTableroDeTarea(vm.idTarea);
+            if (!Permiso((int)id_us_prop)) throw (new Exception("El usuario " + NombreUsuarioLogueado() + " de id " + IdUsuarioLogueado() + "intento acceder a la tarea de id " + vm.idTarea));
             if (!ModelState.IsValid) throw (new Exception("Se cargaron de forma incorrecta los datos en el formulario"));
             _manejoTareas.AsignarTareaUsuario(vm.idTarea, vm.idUsuarioAsignado);
-            return (RedirectToRoute(new { Controller = "Usuario", Action = "Index" }));
+            var idTab = _manejoTareas.IdTableroPropietario(vm.idTarea);
+            return RedirectToAction("ListarTareasTablero",new{idTablero =idTab });
         }
         catch (Exception ex)
         {

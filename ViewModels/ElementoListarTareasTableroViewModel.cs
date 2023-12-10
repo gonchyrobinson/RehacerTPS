@@ -14,8 +14,9 @@ public class ElementoListarTareasTableroViewModel
     public int? id_usuario_asignado { get; set; }
     public string? nombre_usuario_asignado { get; set; }
     public string nombre_tablero { get; set; }
-    public bool permiso{get;set;}
-    public ElementoListarTareasTableroViewModel(Tarea t, List<Usuario> usuarios, string nombreTablero, int idUsLogueado)
+    public bool permisoModificarEstado{get;set;}
+    public bool permisoAsignarUsuario{get;set;}
+    public ElementoListarTareasTableroViewModel(Tarea t, List<Usuario> usuarios, List<Tablero> tableros,string nombreTablero, int idUsLogueado)
     {
         id = t.Id;
         id_tablero = t.Id_tablero;
@@ -34,7 +35,11 @@ public class ElementoListarTareasTableroViewModel
             nombre_usuario_asignado = "Ninguno";
         }
         nombre_tablero = nombreTablero;
-        permiso = id_usuario_asignado==idUsLogueado;
+        var tablero = tableros.FirstOrDefault(tab => tab.Id==id_tablero,null);
+        if(tablero == null)throw(new Exception("No existe el tablero de id "+id+" por lo tanto, no se pueden mostrar los tableros (error en el elementoListarTareasViewModel)"));
+        var id_usuario_propietario_tablero=tablero.Id_usuario_propietario;
+        permisoModificarEstado = id_usuario_asignado==idUsLogueado;
+        permisoAsignarUsuario = id_usuario_propietario_tablero == idUsLogueado;
     }
 
     public ElementoListarTareasTableroViewModel()

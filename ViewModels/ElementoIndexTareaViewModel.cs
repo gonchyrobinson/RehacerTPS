@@ -14,7 +14,10 @@ public class ElementoIndexTareaViewModel
     public int? id_usuario_asignado { get; set; }
     public string? nombre_usuario_asignado { get; set; }
     public string nombre_tablero { get; set; }
-    public ElementoIndexTareaViewModel(Tarea t, List<Usuario> usuarios, List<Tablero> tableros)
+    public int id_usuario_propietario{get;set;}
+    public bool permisoAsignar{get;set;}
+    public bool permisoModificar{get;set;}
+    public ElementoIndexTareaViewModel(Tarea t, List<Usuario> usuarios, List<Tablero> tableros, int idUsLog, bool permisoAdmin)
     {
         id = t.Id;
         id_tablero = t.Id_tablero;
@@ -35,6 +38,8 @@ public class ElementoIndexTareaViewModel
         var tablero = tableros.FirstOrDefault(t => t.Id == id_tablero, null);
         if (tablero == null) throw (new Exception("No existe el tablero de id " + id_tablero));
         nombre_tablero = tablero.Nombre;
+        permisoModificar = id_usuario_asignado==idUsLog;
+        permisoAsignar = tablero.Id_usuario_propietario == idUsLog;
     }
 
     public ElementoIndexTareaViewModel()

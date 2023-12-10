@@ -34,7 +34,7 @@
                 @if (Model.permisoAdmin)
                 {
                     <td><a asp-controller="Tarea" asp-action="Modificar" asp-route-id="@tar.id"
-                            class="btn btn-outline-primary">Modificar</a></td>
+                            class="btn btn-outline-primary">Modificar Tarea</a></td>
                     <td><a asp-controller="Tarea" asp-action="Eliminar" asp-route-id="@tar.id"
                             class="btn btn-outline-danger">Eliminar</a></td>
                     <td><a asp-controller="Tarea" asp-action="AsignarTareaUsuario" asp-route-idTarea="@tar.id"
@@ -42,18 +42,34 @@
                 }
                 else
                 {
-                    if (tar.permiso)
+                    if (tar.permisoAsignarUsuario)
                     {
+                        if(tar.permisoModificarEstado){
                         <td><a asp-controller="Tarea" asp-action="Modificar" asp-route-id="@tar.id"
-                                class="btn btn-outline-primary">Modificar Estado</a></td>
+                                    class="btn btn-outline-primary">Modificar Estado</a></td>
+                        }else{
+                            <td></td>
+                        }
                         <td><a asp-controller="Tarea" asp-action="Eliminar" asp-route-id="@tar.id"
                                 class="btn btn-outline-danger">Eliminar</a></td>
                         <td><a asp-controller="Tarea" asp-action="AsignarTareaUsuario" asp-route-idTarea="@tar.id"
                                 class="btn btn-outline-success">Asignar a Usuario</a></td>
-                    }else{
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                    }
+                    else
+                    {
+                        if (tar.permisoModificarEstado)
+                        {
+                            <td><a asp-controller="Tarea" asp-action="Modificar" asp-route-id="@tar.id"
+                                    class="btn btn-outline-primary">Modificar Estado</a></td>
+                            <td></td>
+                            <td></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        }
                     }
                 }
             </tr>
