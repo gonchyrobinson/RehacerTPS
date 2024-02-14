@@ -25,6 +25,7 @@
                 <td>@tab.nombreDeUsuario</td>
                <td><a asp-controller="Tarea" asp-action="ListarTareasTablero" asp-route-idTablero="@tab.id"
                         class="btn btn-outline-warning">Listar Tareas</a></td>
+                @* Si el usuario tiene permiso de modificar o eliminar, entonces, les muestro los botones para hacerlo sino no *@
                 @if (tab.permiso)
                 {
                     <td><a asp-controller="Tablero" asp-action="Modificar" asp-route-id="@tab.id"

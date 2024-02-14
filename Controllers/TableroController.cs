@@ -77,8 +77,8 @@ public class TableroController : Controller
             if (NoSeLogueoElUsuario()) return (RedirectToRoute(new { Controller = "Login", Action = "Index" }));
             var modificar = _manejoTableros.GetTablero(id);
             var idUsPropietario = _manejoTableros.idUsuarioPropietario(id);
-            var permiso = Permiso((int)idUsPropietario);
-            return View(new ModificarTableroViewModel(id, modificar,permiso,(int)idUsPropietario));
+            if(!Permiso((int)idUsPropietario))throw(new Exception("El usuario "+NombreUsuarioLogueado()+" intento modificar el tablero "+modificar.Nombre+" del usuario de id "+idUsPropietario));
+            return View(new ModificarTableroViewModel(id, modificar,(int)idUsPropietario));
         }
         catch (Exception ex)
         {
@@ -88,7 +88,6 @@ public class TableroController : Controller
     }
 
    
-//Es correct validar permiso asi?
     [HttpPost]
     public IActionResult ModificarP(ModificarTableroViewModel tabvm)
     {
@@ -132,7 +131,6 @@ public class TableroController : Controller
         try
         {
             if (NoSeLogueoElUsuario()) return RedirectToRoute(new { Controller = "Login", Action = "Index" });
-            // if(HttpContext.Session.GetString("Rol")!="Administrador" && id!=HttpContext.Session.GetInt32("Id"))throw(new Exception($"El usuario {HttpContext.Session.GetString("Nombre")} de id {HttpContext.Session.GetInt32("Id")} intentó ingresar a un tablero del usuario de id "+id));
             var tableros = _manejoTableros.ListarTablerosUsuario(id);
             var usuarios = _manejoUsuarios.ListarUsuarios();
             var nombreUsuario = _manejoUsuarios.GetNombreUsuario(id);
@@ -152,6 +150,8 @@ public class TableroController : Controller
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+
+    //FUNCIONES PRIVADAS
     private int? IdUsuarioLogueado()
     {
         return HttpContext.Session.GetInt32("Id");

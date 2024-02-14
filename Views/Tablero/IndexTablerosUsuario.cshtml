@@ -25,12 +25,16 @@
                 <td>@tab.nombreDeUsuario</td>
                 <td><a asp-controller="Tarea" asp-action="ListarTareasTablero" asp-route-idTablero="@tab.id"
                         class="btn btn-outline-warning">Listar Tareas</a></td>
+                @* Permiso determina si es admin o propietario del tablero. Si lo es, puede eliminar y modificar tablero *@
                 @if (Model.permisoAsignar)
                 {
                     <td><a asp-controller="Tablero" asp-action="Modificar" asp-route-id="@tab.id"
                             class="btn btn-outline-primary">Modificar</a></td>
                     <td><a asp-controller="Tablero" asp-action="Eliminar" asp-route-id="@tab.id"
                             class="btn btn-outline-danger">Eliminar</a></td>
+                }else{
+                    <td></td>
+                    <td></td>
                 }
             </tr>
         }

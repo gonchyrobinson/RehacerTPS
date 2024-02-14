@@ -12,8 +12,9 @@
         <input asp-for="@Model.descripcion" class="form-control mb-4" id="desc">
         <span asp-validation-for="@Model.descripcion" class="text-danger"></span>
     </div>
+@* El id de usuario asignado, no se selecciona, ya que lo asigno desde el controller y será el usuario logueado, esto se debe a que no tiene sentido que un usuario cree tableros de otro usuario*@
 <input hidden asp-for="@Model.id_usuario_asignado">
-    @* COMENTO ESTA LINEA PORQUE NO TIENE SENTIDO QUE INGRESEE EL USUARIO PROPIETARIO, EN REALIDAD, DEBERIA SER EL USUARIO QUE SE LOGUEÓ *@
+    @* En caso de haber querido que si se pueda hacer lo anterior, cambio por esto. COMENTO ESTA LINEA PORQUE NO TIENE SENTIDO QUE INGRESEE EL USUARIO PROPIETARIO, EN REALIDAD, DEBERIA SER EL USUARIO QUE SE LOGUEÓ *@
     @* <div class="form-group mb-4">
         <label class="form-check-label" for="us">Usuario Propietario</label>
         <select id="us" asp-for="@Model.id_usuario_asignado" class="form-select">

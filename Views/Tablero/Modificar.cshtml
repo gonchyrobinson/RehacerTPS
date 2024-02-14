@@ -3,7 +3,6 @@
 <h1 class="text-center font-weight-bold">Modificar</h1>
 <form asp-asp-controller="Tablero" asp-action="ModificarP" method="post">
     <input hidden asp-for="@Model.id">
-    <input hidden asp-for="@Model.permiso">
     <input hidden asp-for="@Model.id_usuario_asignado">
     <div class="form-group">
         <label for="nombre_t" asp-for="@Model.nombre"></label>
@@ -16,7 +15,7 @@
         <span asp-validation-for="@Model.descripcion" class="text-danger"></span>
     </div>
 
-    @* COMENTO ESTA LINEA PORQUE NO DEBERIA IR SEGUN LO QUE ENTIENDO *@
+    @* COMENTO ESTA LINEA PORQUE NO DEBERIA IR SEGUN LO QUE ENTIENDO, YA QUE EL USUARIO PROPIETARIO DEL TABLERO NO SE DEBE PODER MODIFICAR *@
     @* <div class="form-group mb-4">
         <label class="form-check-label" for="rolUs">Usuario Asignado</label>
         <select id="rolUs" asp-for="@Model.id_usuario_asignado" class="form-select">

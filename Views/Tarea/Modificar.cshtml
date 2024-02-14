@@ -47,6 +47,7 @@
         </select>
         <span asp-validation-for="@Model.id_tablero" class="text-danger"></span>
     </div>
+    @* Paso estos campos (como input hidden), porque de lo contrario, el campo en el vm será null y Model.State.IsValid es false *@
     <input hidden asp-for="@Model.usuarios">
     <input hidden asp-for="@Model.tableros">
     <input hidden asp-for="@Model.id">

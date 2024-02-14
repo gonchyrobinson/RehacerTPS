@@ -11,7 +11,7 @@ public class IndexTablerosUsuarioViewModel{
         tableros = new List<ElementoIndexTablerosUsuarioViewModel>();
         foreach (var item in tab)
         {
-            tableros.Add(new ElementoIndexTablerosUsuarioViewModel(item,listaUsuarios,permiso,idUsLog));
+            tableros.Add(new ElementoIndexTablerosUsuarioViewModel(item,listaUsuarios,idUsLog));
         }
         permisoAsignar=permiso;
         nombreUsuario=nombreU;

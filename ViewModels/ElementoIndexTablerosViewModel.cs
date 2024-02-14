@@ -12,9 +12,13 @@ public class ElementoIndexTablerosViewModel{
         id_usuario_asignado = tab.Id_usuario_propietario;
         nombre = tab.Nombre;
         descripcion = tab.Descripcion;
+        //Obtengo el nombre del usuario propietario de la tarea para mostrarlo de forma mas clara
         var usuario = usuarios.FirstOrDefault(u => u.Id==id_usuario_asignado,null);
         if(usuario==null)throw(new Exception("No existe el usuario de id "+id_usuario_asignado+" asignado al tablero de id "+id));
         nombreDeUsuario = usuario.Nombre_de_usuario;
+
+        //Esta variable se usa para poder modificar un tablero. Si el usuario es administrador o es propietario del tablero,
+        //puede modificarlo o eliminarlo, sino no
         permiso = permisoAdmin || id_usuario_asignado == idUsLog;
     }
 

@@ -6,7 +6,7 @@ public class ElementoIndexTablerosUsuarioViewModel{
     public ElementoIndexTablerosUsuarioViewModel()
     {
     }
-    public ElementoIndexTablerosUsuarioViewModel(Tablero tab,List<Usuario> usuarios,bool permisoAdmin,int idUsLog)
+    public ElementoIndexTablerosUsuarioViewModel(Tablero tab,List<Usuario> usuarios,int idUsLog)
     {
         id = tab.Id;
         id_usuario_asignado = tab.Id_usuario_propietario;
@@ -15,7 +15,6 @@ public class ElementoIndexTablerosUsuarioViewModel{
         var usuario = usuarios.FirstOrDefault(u => u.Id==id_usuario_asignado,null);
         if(usuario==null)throw(new Exception("No existe el usuario de id "+id_usuario_asignado+"asignado al tablero de id "+id));
         nombreDeUsuario = usuario.Nombre_de_usuario;
-        permiso = permisoAdmin || id_usuario_asignado == idUsLog;
     }
 
     public int id{get;set;}
@@ -23,6 +22,5 @@ public class ElementoIndexTablerosUsuarioViewModel{
     public string nombre{get;set;}
     public string descripcion{get;set;}
     public string nombreDeUsuario{get;set;}
-    public bool permiso{get; set;}
     
 }
